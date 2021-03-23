@@ -20,12 +20,16 @@
     const playbtn = $('.btn-toggle-play');
     const player = $('.player');
     const progress = $('#progress');
+    const nextBtn = $('.btn-next');
+    const prevBtn = $('.btn-prev');
+    const randomBtn = $('.btn-random');
 
     var playList = $('.playlist');
 
     const app = {
         currentIndex: 0,
         isPlaying: false,
+        isRandom: false,
         songs: [
             {
                 name: 'Khi Phai Quen Di',
@@ -45,54 +49,54 @@
                 path: './musics/SOFAR-Binz.mp3',
                 image: './images/song3.jpg'
             },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
-            {
-                name: 'Sao Cung Duoc',
-                singer: 'Binz',
-                path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
-            },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
+            // {
+            //     name: 'Sao Cung Duoc',
+            //     singer: 'Binz',
+            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
+            //     image: './images/song2.png'
+            // },
         ],
         render: function() {
            const html = this.songs.map(song => {
@@ -122,6 +126,21 @@
         },
 
         handleEvent: function() {
+            //Xu li CD quay dung
+            const cdThumbAnimate = 
+                cdThumb.animate(
+            [
+                //{ transform: 'rotate(0) translate3D(-50%, -50%, 0)', color: '#000' },
+                //{ color: '#431236', offset: 0.3},
+                //{ transform: 'rotate(360deg) translate3D(-50%, -50%, 0)', color: '#000' }
+                {transform: 'rotate(360deg'}
+            ], {
+                duration: 10000,
+                iterations: Infinity
+            }
+            );
+            cdThumbAnimate.pause();
+
            //Xu li phong to thu nho CD
             document.onscroll = function () {
                 const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -133,22 +152,27 @@
 
             // Xu li khi click play
             playbtn.addEventListener('click', function () {
-                if(app.isPlaying) {              
+                if(app.isPlaying) { 
                     audio.pause();
+                    
                 }else {
                     audio.play();
+                    
                 }
+            });
 
                 //Khi play
                 audio.onplay = function () {
                     app.isPlaying = true;
                     player.classList.add('playing');
+                    cdThumbAnimate.play();  // Khi bat dau thi cd quay
                 }
 
                 //Khi bi pause
                 audio.onpause = function () {
                     app.isPlaying = false;
                     player.classList.remove('playing');
+                    cdThumbAnimate.pause(); // Khi dung thi cd dung quay
                 }
 
                 //Khi tien do bai hat thay doi
@@ -162,11 +186,50 @@
                 //Khi tua
                 progress.onchange = function(e) {
                     const seekTime = (e.target.value * audio.duration / 100);
+                    
                     audio.currentTime = seekTime;
                 }
-            });
+
+                //Play next song
+                nextBtn.onclick = function () {
+                    if(this.isRandom) {
+                        this.randomSong();
+                        
+                    }else{
+                        app.nextSong();
+                    }
+                        
+                    audio.play();
+                }
+
+                //Play prev song
+                prevBtn.onclick = function () {
+                    if(this.isRandom) {
+                        this.randomSong();
+                        
+                    }else{
+                        app.prevSong();       
+                    }                      
+                    audio.play();
+                }
+
+                //Play random song
+                randomBtn.onclick = function () {
+                    this.isRandom = !this.isRandom;
+                    randomBtn.classList.toggle('active');
+                }
+
+                //Ended curr song and continue next song
+                audio.onended = function () {
+                    
+                    setTimeout(function () {
+                       app.nextSong();
+                       audio.play(); 
+                    }, 3000);                  
+                }
+            
         },
-        
+        // Load song hien tai
         loadCurrentSong: function() {
                    
             heading.innerHTML = this.currentSong.name;
@@ -174,6 +237,33 @@
             cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
             audio.src = this.currentSong.path;
            
+        },
+
+        //Next song
+        nextSong: function() {
+            this.currentIndex++;
+            if(this.currentIndex >= this.songs.length )
+                this.currentIndex = 0;
+            this.loadCurrentSong();
+        },
+
+        //Prev song
+        prevSong: function() {
+            this.currentIndex--;
+            if(this.currentIndex < 0)
+                this.currentIndex = this.songs.length - 1;
+            this.loadCurrentSong();
+        },
+
+        //Random song
+        randomSong: function() {
+            let newIndex;
+            do{
+                newIndex = Math.floor(Math.random() * Math.floor(this.songs.length));
+            }while (newIndex === this.currentIndex);        
+            this.currentIndex = newIndex;
+            console.log(newIndex);
+            this.loadCurrentSong();
         },
         start: function () {
             //Dinh nghia cac thuoc tinh cho object
