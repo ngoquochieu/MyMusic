@@ -35,68 +35,26 @@
                 name: 'Khi Phai Quen Di',
                 singer: 'Phan Manh Quynh',
                 path: './musics/Khi-Phai-Quen-Di-Phan-Manh-Quynh.mp3',
-                image: './images/song1.jpg'
+                image: './images/khi_phai_quen_di.jpg'
             },
             {
                 name: 'Sao Cung Duoc',
                 singer: 'Binz',
                 path: './musics/Sao-Cung-Duoc-Binz.mp3',
-                image: './images/song2.png'
+                image: './images/sao_cung_duoc.png'
             },
             {
                 name: 'SOFAR',
                 singer: 'Binz',
                 path: './musics/SOFAR-Binz.mp3',
-                image: './images/song3.jpg'
+                image: './images/sofar.jpg'
             },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
-            // {
-            //     name: 'Sao Cung Duoc',
-            //     singer: 'Binz',
-            //     path: './musics/Sao-Cung-Duoc-Binz.mp3',
-            //     image: './images/song2.png'
-            // },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
+            }
         ],
         render: function() {
            const html = this.songs.map(song => {
@@ -192,8 +150,8 @@
 
                 //Play next song
                 nextBtn.onclick = function () {
-                    if(this.isRandom) {
-                        this.randomSong();
+                    if(app.isRandom) {
+                        app.randomSong();
                         
                     }else{
                         app.nextSong();
@@ -204,8 +162,8 @@
 
                 //Play prev song
                 prevBtn.onclick = function () {
-                    if(this.isRandom) {
-                        this.randomSong();
+                    if(app.isRandom) {
+                        app.randomSong();
                         
                     }else{
                         app.prevSong();       
@@ -215,16 +173,24 @@
 
                 //Play random song
                 randomBtn.onclick = function () {
-                    this.isRandom = !this.isRandom;
+                    app.isRandom = !app.isRandom;
                     randomBtn.classList.toggle('active');
                 }
 
                 //Ended curr song and continue next song
                 audio.onended = function () {
-                    
                     setTimeout(function () {
-                       app.nextSong();
-                       audio.play(); 
+                        if(app.isRandom) {
+                            //While in random mode, the next song will play randomize
+                            app.randomSong();  
+
+                        } else {
+                            //Play next song
+                            app.nextSong(); 
+                        }                
+
+                        audio.play(); 
+
                     }, 3000);                  
                 }
             
@@ -262,7 +228,6 @@
                 newIndex = Math.floor(Math.random() * Math.floor(this.songs.length));
             }while (newIndex === this.currentIndex);        
             this.currentIndex = newIndex;
-            console.log(newIndex);
             this.loadCurrentSong();
         },
         start: function () {
