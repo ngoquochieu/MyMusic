@@ -9,6 +9,9 @@
     * 8. Active song
     * 9. Scroll  active song into view
     * 10. Play song when click
+    * 
+    * Xu li logic khi phat het 1 bai thi se dua id vao 1 mang danh dau , Khi phat het thi se clear 
+    * lai de tranh truong hop ngau nhien lai 1 bai
 */
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -17,12 +20,14 @@
     const audio = $('#audio');
     const cd = $('.cd');
     const cdWidth = cd.offsetWidth;
-    const playbtn = $('.btn-toggle-play');
+    const playBtn = $('.btn-toggle-play');
     const player = $('.player');
     const progress = $('#progress');
     const nextBtn = $('.btn-next');
     const prevBtn = $('.btn-prev');
     const randomBtn = $('.btn-random');
+    const repeatBtn = $('.btn-repeat');
+    var songS;  // Luu tat ca element co class la song
 
     var playList = $('.playlist');
 
@@ -30,6 +35,8 @@
         currentIndex: 0,
         isPlaying: false,
         isRandom: false,
+        isRepeat: false,
+        
         songs: [
             {
                 name: 'Khi Phai Quen Di',
@@ -73,6 +80,9 @@
                 `
            });
            playList.innerHTML = html.join('');
+
+           // Lay ra tat ca cac element co class = song
+           songS = $$('.song');
         },
 
         defineProperties: function() {
@@ -109,24 +119,22 @@
             }
 
             // Xu li khi click play
-            playbtn.addEventListener('click', function () {
-                if(app.isPlaying) { 
-                    audio.pause();
-                    
-                }else {
-                    audio.play();
-                    
-                }
+            playBtn.addEventListener('click', function () {
+              
+                app.isPlaying ? audio.pause() : audio.play();
+
             });
 
-                //Khi play
+                //Khi play song
                 audio.onplay = function () {
+                    
                     app.isPlaying = true;
                     player.classList.add('playing');
                     cdThumbAnimate.play();  // Khi bat dau thi cd quay
+
                 }
 
-                //Khi bi pause
+                //Khi bi pause song
                 audio.onpause = function () {
                     app.isPlaying = false;
                     player.classList.remove('playing');
@@ -150,56 +158,65 @@
 
                 //Play next song
                 nextBtn.onclick = function () {
-                    if(app.isRandom) {
-                        app.randomSong();
-                        
-                    }else{
-                        app.nextSong();
-                    }
-                        
+                    //Tat che do active song
+                    songS[app.currentIndex].classList.remove('active');
+
+                    app.isRandom ? app.randomSong() : app.nextSong();                    
                     audio.play();
                 }
 
                 //Play prev song
                 prevBtn.onclick = function () {
-                    if(app.isRandom) {
-                        app.randomSong();
-                        
-                    }else{
-                        app.prevSong();       
-                    }                      
+                    //Tat che do active song
+                    songS[app.currentIndex].classList.remove('active'); 
+
+                    app.isRandom ? app.randomSong() : app.prevSong();                                     
                     audio.play();
                 }
 
                 //Play random song
                 randomBtn.onclick = function () {
+                    //Doan nay xu li khi ma repeat dang bat
+                    if(app.isRepeat) {
+                        app.isRepeat = !app.isRepeat;
+                        repeatBtn.classList.toggle('active', app.isRepeat);
+                    }
+
                     app.isRandom = !app.isRandom;
-                    randomBtn.classList.toggle('active');
+                    randomBtn.classList.toggle('active', app.isRandom);
+                      
+                }
+
+                // Repeat song when ended song
+                repeatBtn.onclick = function () {
+
+                    //Doan nay xu li khi random dang bat
+                    if(app.isRandom) {
+                        app.isRandom = !app.isRandom;
+                        randomBtn.classList.toggle('active', app.isRandom);
+                    }
+
+                    app.isRepeat = !app.isRepeat;
+                    repeatBtn.classList.toggle('active', app.isRepeat);
                 }
 
                 //Ended curr song and continue next song
                 audio.onended = function () {
+
                     setTimeout(function () {
-                        if(app.isRandom) {
-                            //While in random mode, the next song will play randomize
-                            app.randomSong();  
 
-                        } else {
-                            //Play next song
-                            app.nextSong(); 
-                        }                
+                        app.isRepeat ? audio.play() : nextBtn.click();
 
-                        audio.play(); 
-
-                    }, 3000);                  
-                }
-            
+                    }, 2000);             
+                }                
         },
+
         // Load song hien tai
         loadCurrentSong: function() {
-                   
-            heading.innerHTML = this.currentSong.name;
             
+            heading.innerHTML = this.currentSong.name;
+
+          songS[this.currentIndex].classList.add('active');
             cdThumb.style.backgroundImage = `url('${this.currentSong.image}')`;
             audio.src = this.currentSong.path;
            
@@ -230,9 +247,17 @@
             this.currentIndex = newIndex;
             this.loadCurrentSong();
         },
+
+        //Repeat song
+        repeatSong: function () {
+
+        },
         start: function () {
             //Dinh nghia cac thuoc tinh cho object
             this.defineProperties();
+
+            //Render playlist
+            this.render();
 
             //Lang nghe va xu li cac xu kien
             this.handleEvent();
@@ -240,8 +265,7 @@
             //Load bai hat dau tien khi chay ung dung
             this.loadCurrentSong();
 
-            //Render playlist
-            this.render();
+            
         }
     }
 
