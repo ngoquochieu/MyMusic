@@ -61,13 +61,43 @@
                 singer: 'LyLy',
                 path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
                 image: './images/nguoi_ta_dau_thuong_em.jpg'
+            },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
+            },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
+            },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
+            },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
+            },
+            {
+                name: 'Nguoi ta dau thuong em',
+                singer: 'LyLy',
+                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
+                image: './images/nguoi_ta_dau_thuong_em.jpg'
             }
         ],
         render: function() {
-           const html = this.songs.map(song => {
+           const html = this.songs.map((song, index )=> {
                 return `
-                <div class="song">
-                    <div class="thumb" style="background-image: url('${song.image}')">
+                <div class="song data-index = "${index}">
+                    <div class="thumb" style="background-image: url('${song.image}') ">
                     </div>
                 <div class="body">
                     <h3 class="title">${song.name}</h3>
@@ -163,6 +193,7 @@
 
                     app.isRandom ? app.randomSong() : app.nextSong();                    
                     audio.play();
+                    app.scrollActiveSong();
                 }
 
                 //Play prev song
@@ -172,6 +203,7 @@
 
                     app.isRandom ? app.randomSong() : app.prevSong();                                     
                     audio.play();
+                    app.scrollActiveSong();
                 }
 
                 //Play random song
@@ -208,9 +240,34 @@
                         app.isRepeat ? audio.play() : nextBtn.click();
 
                     }, 2000);             
-                }                
-        },
+                } 
 
+                // Lang nghe click vao play list
+                playList.onclick = function (e) {
+                    const songNode = e.target.closest('.song:not(.active)');
+                    if(songNode || e.target.closest('.option')) {
+                        // Xu li khi click vao song
+                        if(songNode) {
+                            console.log(songNode.dataset.index);
+                        }
+
+                        //Xu li khi click vao option
+                        if(e.target.closest('.option')) {
+                            //
+                        }
+                    }
+                }
+        },
+        //Scroll Active Song
+        scrollActiveSong: function() {
+            setTimeout(() => {
+                $('.song.active').scrollIntoView({
+                    behavior:'smooth',
+                    block: 'center'
+                })
+            }, 100);
+            
+        },
         // Load song hien tai
         loadCurrentSong: function() {
             
