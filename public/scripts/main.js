@@ -10,8 +10,7 @@
     * 9. Scroll  active song into view
     * 10. Play song when click
     * 
-    * Xu li logic khi phat het 1 bai thi se dua id vao 1 mang danh dau , Khi phat het thi se clear 
-    * lai de tranh truong hop ngau nhien lai 1 bai
+    
 */
     const $ = document.querySelector.bind(document);
     const $$ = document.querySelectorAll.bind(document);
@@ -96,7 +95,7 @@
         render: function() {
            const html = this.songs.map((song, index )=> {
                 return `
-                <div class="song data-index = "${index}">
+                <div class="song" data-index = "${index}">
                     <div class="thumb" style="background-image: url('${song.image}') ">
                     </div>
                 <div class="body">
@@ -248,7 +247,16 @@
                     if(songNode || e.target.closest('.option')) {
                         // Xu li khi click vao song
                         if(songNode) {
-                            console.log(songNode.dataset.index);
+
+                           //Delete attribute active curr song
+                           songS[app.currentIndex].classList.remove('active');
+
+                           //Get index song when click on playlist
+                           app.currentIndex = songNode.dataset.index;
+                            
+                           app.loadCurrentSong();
+                           audio.play();
+                         
                         }
 
                         //Xu li khi click vao option
