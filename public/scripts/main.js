@@ -62,35 +62,24 @@
                 image: './images/nguoi_ta_dau_thuong_em.jpg'
             },
             {
-                name: 'Nguoi ta dau thuong em',
+                name: '24h',
                 singer: 'LyLy',
-                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
-                image: './images/nguoi_ta_dau_thuong_em.jpg'
+                path: './musics/24h_official_music_video_lyly_ft_magazine_4356971572592829029.mp3',
+                image: './images/24h.jpg'
             },
             {
-                name: 'Nguoi ta dau thuong em',
+                name: 'Boi vi la khi yeu',
                 singer: 'LyLy',
-                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
-                image: './images/nguoi_ta_dau_thuong_em.jpg'
+                path: './musics/boi_vi_la_khi_yeu_lyly_official_music_video_7221020470908844288.mp3',
+                image: './images/boi_vi_la_khi_yeu.jpg'
             },
             {
-                name: 'Nguoi ta dau thuong em',
-                singer: 'LyLy',
-                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
-                image: './images/nguoi_ta_dau_thuong_em.jpg'
-            },
-            {
-                name: 'Nguoi ta dau thuong em',
-                singer: 'LyLy',
-                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
-                image: './images/nguoi_ta_dau_thuong_em.jpg'
-            },
-            {
-                name: 'Nguoi ta dau thuong em',
-                singer: 'LyLy',
-                path: './musics/Nguoi-Ta-Dau-Thuong-Em-LyLy.mp3',
-                image: './images/nguoi_ta_dau_thuong_em.jpg'
+                name: 'Sinh ra da la thu doi lap',
+                singer: 'DA LAB',
+                path: './musics/sinh_ra_da_la_thu_doi_lap_nhau_emcee_l_da_lab_ft_badbies_official_mv_787122384272561490.mp3',
+                image: './images/Sinh_ra_da_la_thu_doi_lap.jpg'
             }
+            
         ],
         render: function() {
            const html = this.songs.map((song, index )=> {
